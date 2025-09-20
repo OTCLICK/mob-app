@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_options">
+        <item>Выберите пол</item>
+        <item>Мужской</item>
+        <item>Женский</item>
+        <item>Другое</item>
+    </string-array>
+</resources>
