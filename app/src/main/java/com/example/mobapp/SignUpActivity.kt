@@ -2,13 +2,14 @@ package com.example.mobapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : BaseActivity() {
 
     private lateinit var etUsername: TextInputEditText
     private lateinit var etEmail: TextInputEditText
@@ -30,8 +31,18 @@ class SignUpActivity : AppCompatActivity() {
 
         btnRegister.setOnClickListener {
             if (validateForm()) {
-                Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, HomeActivity::class.java))
+                val username = etUsername.text.toString().trim()
+                val email = etEmail.text.toString().trim()
+                val password = etPassword.text.toString().trim()
+
+                val resultIntent = Intent().apply {
+                    putExtra("username", username)
+                    putExtra("email", email)
+                    putExtra("user", User(username, email, password))
+                }
+
+                Log.d("DEBUG", "Calling finish() in SignUpActivity — returning to SignInActivity")
+                setResult(RESULT_OK, resultIntent)
                 finish()
             }
         }

@@ -1,6 +1,7 @@
 package com.example.mobapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.Response
-
 data class Character(
     val id: Int,
     val name: String,
@@ -35,10 +36,12 @@ data class CharacterResponse(
     val results: List<Character>
 )
 
+
 interface RickAndMortyApi {
     @GET("character")
     suspend fun getCharacters(): Response<CharacterResponse>
 }
+
 
 class CharacterAdapter(private val characters: List<Character>) :
     RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
@@ -72,7 +75,8 @@ class CharacterAdapter(private val characters: List<Character>) :
     override fun getItemCount() = characters.size
 }
 
-class HomeActivity : AppCompatActivity() {
+
+class HomeActivity : BaseActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -80,6 +84,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("DEBUG", "HomeActivity created")
         setContentView(R.layout.activity_home)
 
         recyclerView = findViewById(R.id.recyclerViewCharacters)
