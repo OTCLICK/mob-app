@@ -76,55 +76,55 @@ class CharacterAdapter(private val characters: List<Character>) :
 }
 
 
-class HomeActivity : BaseActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var tvError: TextView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("DEBUG", "HomeActivity created")
-        setContentView(R.layout.activity_home)
-
-        recyclerView = findViewById(R.id.recyclerViewCharacters)
-        progressBar = findViewById(R.id.progressBar)
-        tvError = findViewById(R.id.tv_error)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        loadCharacters()
-    }
-
-    private fun loadCharacters() {
-        progressBar.visibility = View.VISIBLE
-        tvError.visibility = View.GONE
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val api = retrofit.create(RickAndMortyApi::class.java)
-
-        MainScope().launch {
-            try {
-                val response = api.getCharacters()
-                if (response.isSuccessful) {
-                    val characters = response.body()?.results ?: emptyList()
-                    recyclerView.adapter = CharacterAdapter(characters)
-                    progressBar.visibility = View.GONE
-                } else {
-                    showError()
-                }
-            } catch (e: Exception) {
-                showError()
-            }
-        }
-    }
-
-    private fun showError() {
-        progressBar.visibility = View.GONE
-        tvError.visibility = View.VISIBLE
-    }
-}
+//class HomeActivity : BaseActivity() {
+//
+//    private lateinit var recyclerView: RecyclerView
+//    private lateinit var progressBar: ProgressBar
+//    private lateinit var tvError: TextView
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        Log.d("DEBUG", "HomeActivity created")
+//        setContentView(R.layout.activity_home)
+//
+//        recyclerView = findViewById(R.id.recyclerViewCharacters)
+//        progressBar = findViewById(R.id.progressBar)
+//        tvError = findViewById(R.id.tv_error)
+//
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//
+//        loadCharacters()
+//    }
+//
+//    private fun loadCharacters() {
+//        progressBar.visibility = View.VISIBLE
+//        tvError.visibility = View.GONE
+//
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://rickandmortyapi.com/api/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//
+//        val api = retrofit.create(RickAndMortyApi::class.java)
+//
+//        MainScope().launch {
+//            try {
+//                val response = api.getCharacters()
+//                if (response.isSuccessful) {
+//                    val characters = response.body()?.results ?: emptyList()
+//                    recyclerView.adapter = CharacterAdapter(characters)
+//                    progressBar.visibility = View.GONE
+//                } else {
+//                    showError()
+//                }
+//            } catch (e: Exception) {
+//                showError()
+//            }
+//        }
+//    }
+//
+//    private fun showError() {
+//        progressBar.visibility = View.GONE
+//        tvError.visibility = View.VISIBLE
+//    }
+//}
