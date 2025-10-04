@@ -3,6 +3,7 @@ package com.example.mobapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.mobapp.ui.fragments.HomeFragment
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.commit {
                 replace<OnboardFragment>(R.id.fragment_container)
                 setReorderingAllowed(true)
-                addToBackStack("onboard")
             }
         }
     }
@@ -43,8 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToHome() {
-        // Удаляем всё после "onboard" (включая signin/signup), чтобы из Home возвращаться сразу на Onboard
-        supportFragmentManager.popBackStack("onboard", 0) // 0 = POP_BACK_STACK_INCLUSIVE = false
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.commit {
             replace<HomeFragment>(R.id.fragment_container)
             setReorderingAllowed(true)
@@ -71,12 +70,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val count = supportFragmentManager.backStackEntryCount
-        if (count == 1) {
-            // Остался только Onboard — выходим из приложения
+        if (supportFragmentManager.backStackEntryCount == 0) {
             super.onBackPressed()
         } else {
-            // Возвращаемся на предыдущий фрагмент
             supportFragmentManager.popBackStack()
         }
     }
