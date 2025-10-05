@@ -20,39 +20,41 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace<OnboardFragment>(R.id.fragment_container)
                 setReorderingAllowed(true)
+                replace<OnboardFragment>(R.id.fragment_container)
             }
         }
     }
 
     fun navigateToSignIn() {
         supportFragmentManager.commit {
-            replace<SignInFragment>(R.id.fragment_container)
             setReorderingAllowed(true)
-            addToBackStack("signin")
+            replace<SignInFragment>(R.id.fragment_container)
+            addToBackStack("to_signin")
         }
     }
 
     fun navigateToSignUp() {
         supportFragmentManager.commit {
-            replace<SignUpFragment>(R.id.fragment_container)
             setReorderingAllowed(true)
-            addToBackStack("signup")
+            replace<SignUpFragment>(R.id.fragment_container)
+            addToBackStack("to_signup")
         }
     }
 
     fun navigateToHome() {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        while (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStackImmediate()
+        }
         supportFragmentManager.commit {
-            replace<HomeFragment>(R.id.fragment_container)
             setReorderingAllowed(true)
-            addToBackStack("home")
+            replace<HomeFragment>(R.id.fragment_container)
+            addToBackStack("to_home")
         }
     }
 
     fun onUserRegistered(user: User) {
-        val signInFragment = supportFragmentManager.findFragmentByTag("signin") as? SignInFragment
+        val signInFragment = supportFragmentManager.findFragmentByTag("to_signin") as? SignInFragment
         if (signInFragment != null) {
             signInFragment.setUserEmail(user.email)
         } else {
@@ -62,9 +64,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             supportFragmentManager.commit {
-                replace(R.id.fragment_container, fragment, "signin")
                 setReorderingAllowed(true)
-                addToBackStack("signin")
+                replace(R.id.fragment_container, fragment)
+                addToBackStack("to_signin_from_register")
             }
         }
     }
