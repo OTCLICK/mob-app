@@ -8,30 +8,33 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.mobapp.MainActivity
-import com.example.mobapp.databinding.ActivitySignInBinding
+import com.example.mobapp.R
 import com.google.android.material.textfield.TextInputEditText
-import com.example.mobapp.User // ← Убедись, что User лежит в com.example.mobapp!
+import com.example.mobapp.databinding.FragmentSignInBinding
 
 class SignInFragment : Fragment() {
 
-    private var _binding: ActivitySignInBinding? = null
+    private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
+
+    private val args by navArgs<SignInFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivitySignInBinding.inflate(inflater, container, false)
+        _binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = arguments?.getSerializable("user") as? User
-        if (user != null) {
+        args.user?.let { user ->
             binding.etEmail.setText(user.email)
         }
 
@@ -54,17 +57,13 @@ class SignInFragment : Fragment() {
 
             if (isValid) {
                 Toast.makeText(requireContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show()
-                (activity as? MainActivity)?.navigateToHome()
+                findNavController().navigate(R.id.action_signin_to_home)
             }
         }
 
         binding.tvSignupLink.setOnClickListener {
-            (activity as? MainActivity)?.navigateToSignUp()
+            findNavController().navigate(R.id.action_signin_to_signup)
         }
-    }
-
-    fun setUserEmail(email: String) {
-        binding.etEmail.setText(email)
     }
 
     override fun onDestroyView() {

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobapp.CharacterAdapter
 import com.example.mobapp.CharacterResponse
-import com.example.mobapp.databinding.ActivityHomeBinding
+import com.example.mobapp.databinding.FragmentHomeBinding
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,7 +26,7 @@ interface RickAndMortyApi {
 
 class HomeFragment : Fragment() {
 
-    private var _binding: ActivityHomeBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivityHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
         binding.tvError.visibility = View.GONE
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/") // ← УБРАНЫ ПРОБЕЛЫ В КОНЦЕ!
+            .baseUrl("https://rickandmortyapi.com/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

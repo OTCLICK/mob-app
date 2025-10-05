@@ -8,13 +8,15 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.util.PatternsCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.mobapp.MainActivity
+import com.example.mobapp.R
 import com.example.mobapp.User
-import com.example.mobapp.databinding.ActivitySignUpBinding
+import com.example.mobapp.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
 
-    private var _binding: ActivitySignUpBinding? = null
+    private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,7 +24,7 @@ class SignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivitySignUpBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,12 +39,13 @@ class SignUpFragment : Fragment() {
                     password = binding.etSignupPassword.text.toString().trim()
                 )
 
-                (activity as? MainActivity)?.onUserRegistered(user)
+                val action = SignUpFragmentDirections.actionSignupToSignin(user)
+                findNavController().navigate(action)
             }
         }
 
         binding.tvSigninLink.setOnClickListener {
-            (activity as? MainActivity)?.navigateToSignIn()
+            findNavController().navigate(R.id.action_signup_to_signin)
         }
     }
 
